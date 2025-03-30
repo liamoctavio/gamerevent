@@ -1,12 +1,33 @@
-package gameeventogroup.gamerevent.Controller;
+package gameeventogroup.gamerevent.controller;
 
+import java.security.Principal;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import gameeventogroup.gamerevent.models.Usuario;
+import gameeventogroup.gamerevent.repositories.UsuarioRepository;
 
 @Controller
 public class AuthController {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/")
+    public String home(Model model) {
+
+        return "index";
+    }
 
     @GetMapping("/login")
     public String mostrarLogin(
@@ -16,6 +37,29 @@ public class AuthController {
     ) {
         model.addAttribute("error", error != null);  
         model.addAttribute("logout", logout != null);  
-        return "login";  
+        return 
+        
+        "login";  
     }
+
+    @GetMapping("/register")
+    public String registerForm(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String register(@ModelAttribute Usuario usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuarioRepository.save(usuario);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/perfil")
+    public String perfil(Principal principal, Model model) {
+        Usuario usuario = usuarioRepository.findByNombreUsuario(principal.getName());
+        model.addAttribute("usuario", usuario);
+        return "perfil";
+    }    
+
 }

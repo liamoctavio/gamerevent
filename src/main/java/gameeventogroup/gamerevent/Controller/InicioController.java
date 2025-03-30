@@ -1,4 +1,4 @@
-package gameeventogroup.gamerevent.Controller;
+package gameeventogroup.gamerevent.controller;
 
 
 import org.springframework.stereotype.Controller;
