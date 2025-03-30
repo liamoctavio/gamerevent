@@ -7,11 +7,33 @@
 </head>
 <body>
     <h2>Mi Perfil</h2>
-    <p>Bienvenido, <span th:text="${usuario.nombre}"></span>!</p>
-    <p>Tu usuario es: <span th:text="${usuario.nombreUsuario}"></span></p>
-    <p>Tu correo: <span th:text="${usuario.correo}"></span></p>
 
-    <a th:href="@{/eventos}">Ver Eventos</a> |
+    <form th:action="@{/perfil/actualizar}" method="post">
+
+        <p>Bienvenido, <b th:text="${usuario.nombre}"></b>!</p>
+        <p>Usuario: <b th:text="${usuario.nombreUsuario}"></b></p>
+        <p>Correo: <b th:text="${usuario.correo}"></b></p>
+
+        <label>Avatar (URL imagen):</label><br>
+        <input type="text" name="avatar" th:value="${usuario.avatar}"/><br><br>
+
+        <label>Notificaciones:</label>
+        <input type="checkbox" name="notificaciones" th:checked="${usuario.notificaciones}"/><br><br>
+
+        <h3>Juegos de Interés</h3>
+        <div th:each="juego : ${juegos}">
+            <input type="checkbox" name="juegosSeleccionados"
+                   th:value="${juego.idJuego}"
+                   th:checked="${usuario.juegosDeInteres.contains(juego)}"/>
+            <span th:text="${juego.nombre}"></span><br>
+        </div>
+
+        <br>
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+    <br>
+    <a th:href="@{/inicio}">Volver al inicio</a> |
     <a th:href="@{/logout}">Cerrar sesión</a>
 </body>
 </html>
