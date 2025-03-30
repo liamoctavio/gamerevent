@@ -8,28 +8,69 @@
   </head>
   <body>
     <div class="container">
-      <h1>
-        Bienvenido,
-        <span th:text="${#authentication.principal.username}"></span>!
-      </h1>
+      <div th:if="${#authorization.expression('isAuthenticated()')}">
+        <h1>
+          Bienvenido,
+          <span th:text="${#authentication.principal.username}">Usuario</span>!
+        </h1>
 
-      <!-- Barra de navegación -->
-      <nav>
-        <a href="/perfil">Mi Perfil</a>
-        <form th:action="@{/logout}" method="post">
-          <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}"
-          />
-          <button type="submit">Cerrar Sesión</button>
-        </form>
-      </nav>
+        <!-- Barra de navegación -->
+        <nav>
+          <a href="/perfil">Mi Perfil</a>
+          <form th:action="@{/logout}" method="post">
+            <input
+              type="hidden"
+              th:name="${_csrf.parameterName}"
+              th:value="${_csrf.token}"
+            />
+            <button type="submit">Cerrar Sesión</button>
+          </form>
+        </nav>
+      </div>
+
+      <!-- Si NO está autenticado -->
+      <div th:if="${#authorization.expression('isAnonymous()')}">
+        <h1>Bienvenido</h1>
+        <nav>
+          <a href="/login">Iniciar Sesión</a> |
+          <a href="/register">Registrarse</a>
+        </nav>
+      </div>
 
       <!-- Contenido principal -->
       <section>
         <p>Esta es tu página de inicio personalizada.</p>
         <h2>Lista de Eventos</h2>
+
+        <!-- Formulario de búsqueda -->
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+          <form action="/inicio" method="get">
+            <input
+              type="text"
+              name="titulo"
+              placeholder="Título del evento"
+              th:value="${titulo}"
+            />
+            <input
+              type="text"
+              name="categoria"
+              placeholder="Categoría"
+              th:value="${categoria}"
+            />
+            <input
+              type="text"
+              name="ciudad"
+              placeholder="Ciudad"
+              th:value="${ciudad}"
+            />
+            <input
+              type="date"
+              name="fecha"
+              th:value="${#dates.format(fecha, 'yyyy-MM-dd')}"
+            />
+            <button type="submit">Buscar</button>
+          </form>
+        </div>
         <ul>
           <li th:each="evento : ${eventos}">
             <a th:href="@{'/eventos/' + ${evento.idEvento}}">

@@ -23,11 +23,11 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/")
-    public String home(Model model) {
+    // @GetMapping("/")
+    // public String home(Model model) {
 
-        return "index";
-    }
+    //     return "inde";
+    // }
 
     @GetMapping("/login")
     public String mostrarLogin(
