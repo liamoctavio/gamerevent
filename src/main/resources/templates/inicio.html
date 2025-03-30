@@ -29,6 +29,16 @@
       <!-- Contenido principal -->
       <section>
         <p>Esta es tu página de inicio personalizada.</p>
+        <h2>Lista de Eventos</h2>
+        <ul>
+          <li th:each="evento : ${eventos}">
+            <a th:href="@{'/eventos/' + ${evento.idEvento}}">
+              <span th:text="${evento.titulo}">Titulo</span> -
+              <span th:text="${evento.fecha}">Fecha</span> -
+              <span th:text="${evento.ciudad}">Ciudad</span>
+            </a>
+          </li>
+        </ul>
       </section>
     </div>
 
