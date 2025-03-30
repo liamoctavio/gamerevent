@@ -1,11 +1,15 @@
 package gameeventogroup.gamerevent.models;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,72 +37,41 @@ public class Usuario {
     )
     private Set<Juego> juegosDeInteres = new HashSet<>();
 
-    public Long getIdUsuario() {
-        return idUsuario;
+    // Implementación mínima de UserDetails
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new HashSet<>(); // No tienes roles definidos aún
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
+    @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return this.nombreUsuario;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public String getAvatar() {
-        return avatar;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
-    public Boolean getNotificaciones() {
-        return notificaciones;
-    }
-
-    public void setNotificaciones(Boolean notificaciones) {
-        this.notificaciones = notificaciones;
-    }
-
-    public Set<Juego> getJuegosDeInteres() {
-        return juegosDeInteres;
-    }
-
-    public void setJuegosDeInteres(Set<Juego> juegosDeInteres) {
-        this.juegosDeInteres = juegosDeInteres;
-    }
-
-    // getters y setters
-
-    
-
+    // getters y setters normales
 }
