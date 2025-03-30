@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${evento.titulo}">Detalle Evento</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    <h2 th:text="${evento.titulo}"></h2>
+    <p><strong>Descripción:</strong> <span th:text="${evento.descripcion}"></span></p>
+    <p><strong>Dirección:</strong> <span th:text="${evento.direccion}"></span></p>
+    <p><strong>Fecha:</strong> <span th:text="${evento.fecha}"></span></p>
+    <p><strong>Hora:</strong> <span th:text="${evento.hora}"></span></p>
+    <p><strong>Categoría:</strong> <span th:text="${evento.categoria}"></span></p>
+    <p><strong>Ciudad:</strong> <span th:text="${evento.ciudad}"></span></p>
+    <p><strong>País:</strong> <span th:text="${evento.pais}"></span></p>
+
+    <h3>Organizadores</h3>
+    <ul>
+        <li th:each="org : ${evento.organizadores}" th:text="${org.nombre}"></li>
+    </ul>
+
+    <h3>Expositores</h3>
+    <ul>
+        <li th:each="exp : ${evento.expositores}" th:text="${exp.nombre}"></li>
+    </ul>
+
+    <h3>Servicios</h3>
+    <div th:if="${evento.servicios != null}">
+        <p>Estacionamiento: <span th:text="${evento.servicios.estacionamiento ? 'Sí' : 'No'}"></span></p>
+        <p>Locomoción: <span th:text="${evento.servicios.locomocion ? 'Sí' : 'No'}"></span></p>
+        <p>Comida: <span th:text="${evento.servicios.comida ? 'Sí' : 'No'}"></span></p>
+        <p>Alojamiento: <span th:text="${evento.servicios.alojamiento ? 'Sí' : 'No'}"></span></p>
+    </div>
+
+    <a th:href="@{/eventos}">Volver a eventos</a>
+</body>
+</html>
