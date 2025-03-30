@@ -74,4 +74,67 @@ public class Usuario implements UserDetails {
     }
 
     // getters y setters normales
+
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Boolean getNotificaciones() {
+        return notificaciones;
+    }
+
+    public void setNotificaciones(Boolean notificaciones) {
+        this.notificaciones = notificaciones;
+    }
+
+    public Set<Juego> getJuegosDeInteres() {
+        return juegosDeInteres;
+    }
+
+    public void setJuegosDeInteres(Set<Juego> juegosDeInteres) {
+        this.juegosDeInteres = juegosDeInteres;
+    }
+
+    
+
 }
