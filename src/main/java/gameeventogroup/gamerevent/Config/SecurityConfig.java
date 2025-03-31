@@ -23,33 +23,83 @@ public class SecurityConfig {
     @Autowired
     private CustomAuthFailureHandler customAuthFailureHandler;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests(authorize -> authorize
-                .requestMatchers("/css/**", "/js/**", "/login", "/registro", "/registrar", "/inicio", "/").permitAll()  
-                .anyRequest().authenticated()  
-            )
-            .formLogin(form -> form
-                .loginPage("/login")  
-                .loginProcessingUrl("/login")  
-                .defaultSuccessUrl("/inicio", true) 
-                .failureUrl("/login?error=true")  
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")  
-                .logoutSuccessUrl("/inicio")  
-            )
-            .headers(headers -> headers
-                .contentSecurityPolicy("default-src 'self'; " +
-                                       "img-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; https://www.google.com https://lh3.googleusercontent.com; https://www.pexels.com" +
-                                       "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-                                       "style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
-                                       "font-src 'self' https://fonts.gstatic.com;")
-            );
+    // @Bean
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    //     http
+    //         .authorizeRequests(authorize -> authorize
+    //             .requestMatchers("/css/**", "/js/**", "/login", "/registro", "/registrar", "/inicio", "/").permitAll()  
+    //             .anyRequest().authenticated()  
+    //         )
+    //         .formLogin(form -> form
+    //             .loginPage("/login")  
+    //             .loginProcessingUrl("/login")  
+    //             .defaultSuccessUrl("/inicio", true) 
+    //             .failureUrl("/login?error=true")  
+    //         )
+    //         .logout(logout -> logout
+    //             .logoutUrl("/logout")  
+    //             .logoutSuccessUrl("/inicio")  
+    //         )
+    //         .headers(headers -> headers
+    //             .contentSecurityPolicy("default-src 'self'; " +
+    //                                    "img-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; https://www.google.com https://lh3.googleusercontent.com; https://www.pexels.com" +
+    //                                    "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+    //                                    "style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
+    //                                    "font-src 'self' https://fonts.gstatic.com;")
+    //         )
+    //         .and()
+    //         // Protección contra Clickjacking
+    //         .frameOptions().deny()
+    //         .and()
+    //         // Protección XSS básica
+    //         .xssProtection(xss -> xss.block(true))
+    //         .and()
+    //         // HSTS recomendado
+    //         .httpStrictTransportSecurity(hsts -> hsts
+    //             .includeSubDomains(true)
+    //             .maxAgeInSeconds(31536000))
+    //     );
 
-        return http.build();
-    }
+    //     return http.build();
+    // }
+    // SecurityConfig.java
+
+// SecurityConfig.java
+
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/css/**", "/js/**", "/login", "/registro", "/registrar", "/inicio", "/").permitAll()
+            .anyRequest().authenticated()
+        )
+        .formLogin(form -> form
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
+            .defaultSuccessUrl("/inicio", true)
+            .failureUrl("/login?error=true")
+        )
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/inicio")
+        )
+        .headers(headers -> headers
+            .contentSecurityPolicy("default-src 'self'; " +
+                                   "img-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.google.com https://lh3.googleusercontent.com https://www.pexels.com; " +
+                                   "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                                   "style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; " +
+                                   "font-src 'self' https://fonts.gstatic.com;")
+            .and()
+            .frameOptions(frame -> frame.deny())
+            .httpStrictTransportSecurity(hsts -> hsts
+                .includeSubDomains(true)
+                .maxAgeInSeconds(31536000))
+        );
+
+    return http.build();
+}
+    
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
