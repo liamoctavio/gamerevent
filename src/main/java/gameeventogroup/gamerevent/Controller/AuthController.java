@@ -42,18 +42,7 @@ public class AuthController {
         "login";  
     }
 
-    @GetMapping("/register")
-    public String registerForm(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "register";
-    }
 
-    @PostMapping("/register")
-    public String register(@ModelAttribute Usuario usuario) {
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        usuarioRepository.save(usuario);
-        return "redirect:/login";
-    }
 
   
 
