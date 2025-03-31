@@ -55,11 +55,6 @@ public class AuthController {
         return "redirect:/login";
     }
 
-    @GetMapping("/perfil")
-    public String perfil(Principal principal, Model model) {
-        Usuario usuario = usuarioRepository.findByNombreUsuario(principal.getName());
-        model.addAttribute("usuario", usuario);
-        return "perfil";
-    }    
+  
 
 }

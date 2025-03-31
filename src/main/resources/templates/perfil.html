@@ -1,39 +1,105 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mi Perfil</title>
-    <link rel="stylesheet" th:href="@{/css/estilo.css}">
-</head>
-<body>
-    <h2>Mi Perfil</h2>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="profile-header">
+        <a th:href="@{/inicio}" class="back-button">
+          <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
+        <h1 class="profile-title">
+          <i class="fas fa-user-circle"></i> Mi Perfil
+        </h1>
+      </header>
 
-    <form th:action="@{/perfil/actualizar}" method="post">
+      <main class="profile-content">
+        <form
+          th:action="@{/perfil/actualizar}"
+          method="post"
+          class="profile-form"
+        >
+          <div class="user-info-card">
+            <div class="avatar-preview" th:if="${usuario.avatar}">
+              <img th:src="${usuario.avatar}" alt="Avatar del usuario" />
+            </div>
+            <div class="user-details">
+              <p class="welcome-message">
+                Bienvenido, <span th:text="${usuario.nombre}"></span>!
+              </p>
+              <div class="detail-item">
+                <i class="fas fa-user-tag"></i>
+                <span th:text="${usuario.nombreUsuario}"></span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-envelope"></i>
+                <span th:text="${usuario.correo}"></span>
+              </div>
+            </div>
+          </div>
 
-        <p>Bienvenido, <b th:text="${usuario.nombre}"></b>!</p>
-        <p>Usuario: <b th:text="${usuario.nombreUsuario}"></b></p>
-        <p>Correo: <b th:text="${usuario.correo}"></b></p>
+          <div class="form-section">
+            <label class="form-label">
+              <i class="fas fa-image"></i> URL del Avatar
+            </label>
+            <input
+              type="text"
+              name="avatar"
+              th:value="${usuario.avatar}"
+              class="form-input"
+              placeholder="Ingresa una URL de imagen"
+            />
+          </div>
 
-        <label>Avatar (URL imagen):</label><br>
-        <input type="text" name="avatar" th:value="${usuario.avatar}"/><br><br>
+          <div class="form-section toggle-section">
+            <label class="toggle-label">
+              <i class="fas fa-bell"></i> Recibir Notificaciones
+              <input type="hidden" name="notificaciones" value="false" />
+              <input
+                type="checkbox"
+                name="notificaciones"
+                th:checked="${usuario.notificaciones}"
+                class="toggle-input"
+                vakue="true"
+              />
+              <span class="toggle-switch"></span>
+            </label>
+          </div>
 
-        <label>Notificaciones:</label>
-        <input type="checkbox" name="notificaciones" th:checked="${usuario.notificaciones}"/><br><br>
+          <div class="form-section">
+            <h3 class="section-title">
+              <i class="fas fa-gamepad"></i> Juegos de Interés
+            </h3>
+            <div class="games-grid">
+              <div th:each="juego : ${juegos}" class="game-card">
+                <label class="game-checkbox">
+                  <input
+                    type="checkbox"
+                    name="juegosSeleccionados"
+                    th:value="${juego.idJuego}"
+                    th:checked="${usuario.juegosDeInteres.contains(juego)}"
+                  />
+                  <span class="game-name" th:text="${juego.nombre}"></span>
+                </label>
+              </div>
+            </div>
+          </div>
 
-        <h3>Juegos de Interés</h3>
-        <div th:each="juego : ${juegos}">
-            <input type="checkbox" name="juegosSeleccionados"
-                   th:value="${juego.idJuego}"
-                   th:checked="${usuario.juegosDeInteres.contains(juego)}"/>
-            <span th:text="${juego.nombre}"></span><br>
-        </div>
-
-        <br>
-        <button type="submit">Guardar Cambios</button>
-    </form>
-
-    <br>
-    <a th:href="@{/inicio}">Volver al inicio</a> |
-    <a th:href="@{/logout}">Cerrar sesión</a>
-</body>
+          <div class="form-actions">
+            <button type="submit" class="submit-button">
+              <i class="fas fa-save"></i> Guardar Cambios
+            </button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </body>
 </html>

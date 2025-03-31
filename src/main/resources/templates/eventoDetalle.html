@@ -2,60 +2,135 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:text="${evento.titulo}">Detalle Evento</title>
     <link rel="stylesheet" th:href="@{/css/estilo.css}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
   </head>
   <body>
-    <h2 th:text="${evento.titulo}"></h2>
-    <p>
-      <strong>Descripción:</strong>
-      <span th:text="${evento.descripcion}"></span>
-    </p>
-    <p>
-      <strong>Dirección:</strong> <span th:text="${evento.direccion}"></span>
-    </p>
-    <p><strong>Fecha:</strong> <span th:text="${evento.fecha}"></span></p>
-    <p><strong>Hora:</strong> <span th:text="${evento.hora}"></span></p>
-    <p>
-      <strong>Categoría:</strong> <span th:text="${evento.categoria}"></span>
-    </p>
-    <p><strong>Ciudad:</strong> <span th:text="${evento.ciudad}"></span></p>
-    <p><strong>País:</strong> <span th:text="${evento.pais}"></span></p>
+    <div class="event-container">
+      <header class="event-header">
+        <h1 class="event-title" th:text="${evento.titulo}"></h1>
+        <a th:href="@{/inicio}" class="back-button">
+          <i class="fas fa-arrow-left"></i> Volver a eventos
+        </a>
+      </header>
 
-    <h3>Organizadores</h3>
-    <ul>
-      <li th:each="org : ${evento.organizadores}" th:text="${org.nombre}"></li>
-    </ul>
+      <main class="event-details-grid">
+        <!-- Sección de Información Básica -->
+        <div class="detail-card">
+          <div class="detail-section">
+            <h3><i class="fas fa-info-circle"></i> Información General</h3>
+            <div class="detail-item">
+              <strong><i class="fas fa-calendar-day"></i> Fecha:</strong>
+              <span th:text="${evento.fecha}"></span>
+            </div>
+            <div class="detail-item">
+              <strong><i class="fas fa-clock"></i> Hora:</strong>
+              <span th:text="${evento.hora}"></span>
+            </div>
+            <div class="detail-item">
+              <strong><i class="fas fa-map-marker-alt"></i> Ubicación:</strong>
+              <span th:text="${evento.ciudad + ', ' + evento.pais}"></span>
+            </div>
+            <div class="detail-item">
+              <strong><i class="fas fa-tag"></i> Categoría:</strong>
+              <span th:text="${evento.categoria}"></span>
+            </div>
+          </div>
+        </div>
 
-    <h3>Expositores</h3>
-    <ul>
-      <li th:each="exp : ${evento.expositores}" th:text="${exp.nombre}"></li>
-    </ul>
+        <!-- Sección de Dirección -->
+        <div class="detail-card">
+          <div class="detail-section">
+            <h3><i class="fas fa-map"></i> Dirección</h3>
+            <p
+              th:text="${evento.direccion}"
+              style="margin: 1rem 0; line-height: 1.6"
+            ></p>
+          </div>
+        </div>
 
-    <h3>Servicios</h3>
-    <div th:if="${evento.servicios != null}">
-      <p>
-        Estacionamiento:
-        <span
-          th:text="${evento.servicios.estacionamiento ? 'Sí' : 'No'}"
-        ></span>
-      </p>
-      <p>
-        Locomoción:
-        <span th:text="${evento.servicios.locomocion ? 'Sí' : 'No'}"></span>
-      </p>
-      <p>
-        Comida:
-        <span
-          th:text="${evento.servicios.comidas ?: false ? 'Sí' : 'No'}"
-        ></span>
-      </p>
-      <p>
-        Alojamiento:
-        <span th:text="${evento.servicios.alojamiento ? 'Sí' : 'No'}"></span>
-      </p>
+        <!-- Sección de Descripción -->
+        <div class="detail-card">
+          <div class="detail-section">
+            <h3><i class="fas fa-align-left"></i> Descripción</h3>
+            <p
+              th:text="${evento.descripcion}"
+              style="margin: 1rem 0; line-height: 1.6"
+            ></p>
+          </div>
+        </div>
+
+        <!-- Sección de Participantes -->
+        <div class="detail-card">
+          <div class="detail-section">
+            <h3><i class="fas fa-users"></i> Organizadores</h3>
+            <ul class="participants-list">
+              <li
+                th:each="org : ${evento.organizadores}"
+                class="participant-badge"
+                th:text="${org.nombre}"
+              ></li>
+            </ul>
+          </div>
+
+          <div class="detail-section">
+            <h3><i class="fas fa-microphone"></i> Expositores</h3>
+            <ul class="participants-list">
+              <li
+                th:each="exp : ${evento.expositores}"
+                class="participant-badge"
+                th:text="${exp.nombre}"
+              ></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sección de Servicios -->
+        <div class="detail-card">
+          <div class="detail-section">
+            <h3><i class="fas fa-concierge-bell"></i> Servicios</h3>
+            <div class="services-grid" th:if="${evento.servicios != null}">
+              <div class="service-item">
+                <i class="fas fa-parking service-icon"></i>
+                <p class="service-title">Estacionamiento</p>
+                <span
+                  th:class="${evento.servicios.estacionamiento} ? 'service-available' : 'service-unavailable'"
+                  th:text="${evento.servicios.estacionamiento} ? 'Disponible' : 'No disponible'"
+                ></span>
+              </div>
+              <div class="service-item">
+                <i class="fas fa-bus service-icon"></i>
+                <p class="service-title">Locomoción</p>
+                <span
+                  th:class="${evento.servicios.locomocion} ? 'service-available' : 'service-unavailable'"
+                  th:text="${evento.servicios.locomocion} ? 'Disponible' : 'No disponible'"
+                ></span>
+              </div>
+              <div class="service-item">
+                <i class="fas fa-utensils service-icon"></i>
+                <p class="service-title">Comida</p>
+                <span
+                  th:class="${evento.servicios.comidas} ? 'service-available' : 'service-unavailable'"
+                  th:text="${evento.servicios.comidas} ? 'Disponible' : 'No disponible'"
+                ></span>
+              </div>
+              <div class="service-item">
+                <i class="fas fa-bed service-icon"></i>
+                <p class="service-title">Alojamiento</p>
+                <span
+                  th:class="${evento.servicios.alojamiento} ? 'service-available' : 'service-unavailable'"
+                  th:text="${evento.servicios.alojamiento} ? 'Disponible' : 'No disponible'"
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
-
-    <a th:href="@{/inicio}">Volver a eventos</a>
   </body>
 </html>
