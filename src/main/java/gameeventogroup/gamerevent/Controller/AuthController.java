@@ -23,12 +23,6 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // @GetMapping("/")
-    // public String home(Model model) {
-
-    //     return "inde";
-    // }
-
     @GetMapping("/login")
     public String mostrarLogin(
         @RequestParam(value = "error", required = false) String error,
