@@ -1,5 +1,6 @@
 package gameeventogroup.gamerevent.service;
 
+import gameeventogroup.gamerevent.exception.UsuarioBloqueadoException;
 import gameeventogroup.gamerevent.models.Usuario;
 import gameeventogroup.gamerevent.repositories.UsuarioRepository;
 
@@ -36,21 +37,17 @@ public class UsuarioService {
         usuarioRepository.save(nuevoUsuario);
     }
 
-     
-
     private Map<String, Integer> intentos = new ConcurrentHashMap<>();
 
     public void registrarIntento(String username) {
         intentos.put(username, intentos.getOrDefault(username, 0) + 1);
         if (intentos.get(username) > 5) {
-            throw new RuntimeException("Demasiados intentos fallidos, usuario bloqueado temporalmente");
+            throw new UsuarioBloqueadoException(username);
         }
     }
 
     public void limpiarIntentos(String username) {
         intentos.remove(username);
     }
-    
-
 
 }

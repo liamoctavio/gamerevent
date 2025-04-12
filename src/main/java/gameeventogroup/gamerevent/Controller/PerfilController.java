@@ -5,7 +5,6 @@ import gameeventogroup.gamerevent.models.Usuario;
 import gameeventogroup.gamerevent.repositories.JuegoRepository;
 import gameeventogroup.gamerevent.repositories.UsuarioRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +18,13 @@ import java.util.Set;
 @RequestMapping("/perfil")
 public class PerfilController {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final JuegoRepository juegoRepository;
 
-    @Autowired
-    private JuegoRepository juegoRepository;
+    public PerfilController(UsuarioRepository usuarioRepository, JuegoRepository juegoRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.juegoRepository = juegoRepository;
+    }
 
     @GetMapping
     public String verPerfil(Model model, Principal principal) {
@@ -50,9 +51,7 @@ public class PerfilController {
         // Actualizar juegos
         Set<Juego> juegos = new HashSet<>();
         if (juegosSeleccionados != null) {
-            juegosSeleccionados.forEach(id -> {
-                juegoRepository.findById(id).ifPresent(juegos::add);
-            });
+            juegosSeleccionados.forEach(id -> juegoRepository.findById(id).ifPresent(juegos::add));
         }
         usuario.setJuegosDeInteres(juegos);
 

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class RegistroController {
 
+
     private final UsuarioService usuarioService;
+    private static final String REGISTRO_VIEW = "registro";
 
     public RegistroController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
@@ -18,7 +20,7 @@ public class RegistroController {
 
     @GetMapping("/registro")
     public String mostrarRegistro() {
-        return "registro";
+        return REGISTRO_VIEW;
     }
 
     @PostMapping("/registrar")
@@ -30,12 +32,12 @@ public class RegistroController {
     ) {
         if (usuarioService.existeUsuario(username)) {
             model.addAttribute("errorUsername", true);
-            return "registro";
+            return REGISTRO_VIEW;
         }
         
         if (usuarioService.existeEmail(email)) {
             model.addAttribute("errorEmail", true);
-            return "registro";
+            return REGISTRO_VIEW;
         }
         
         usuarioService.crearUsuario(username, email, password);
