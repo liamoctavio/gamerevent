@@ -57,4 +57,43 @@ class InicioControllerTest {
                 .andExpect(model().attributeExists("eventos"));
     }
 
+    @WithMockUser
+    @Test
+    void buscarEventos_porCategoria_debeFiltrarPorCategoria() throws Exception {
+        String categoria = "Competencia";
+        when(eventoRepository.findByCategoriaContainingIgnoreCase(categoria)).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/inicio").param("categoria", categoria).with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("inicio"))
+                .andExpect(model().attribute("categoria", categoria))
+                .andExpect(model().attributeExists("eventos"));
+    }
+
+    @WithMockUser
+    @Test
+    void buscarEventos_porCiudad_debeFiltrarPorCiudad() throws Exception {
+        String ciudad = "Santiago";
+        when(eventoRepository.findByCiudadContainingIgnoreCase(ciudad)).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/inicio").param("ciudad", ciudad).with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("inicio"))
+                .andExpect(model().attribute("ciudad", ciudad))
+                .andExpect(model().attributeExists("eventos"));
+    }
+
+    // @Test
+    // void buscarEventos_porFecha_debeFiltrarPorFecha() throws Exception {
+    //     String fecha = "2024-06-15";
+    //     java.sql.Date fechaSQL = java.sql.Date.valueOf(fecha);
+    //     when(eventoRepository.findByFecha(fechaSQL)).thenReturn(Collections.emptyList());
+
+    //     mockMvc.perform(get("/inicio").param("fecha", fecha).with(csrf()))
+    //             .andExpect(status().isOk())
+    //             .andExpect(view().name("inicio"))
+    //             .andExpect(model().attribute("fecha", fechaSQL))
+    //             .andExpect(model().attributeExists("eventos"));
+    // }
+
 }
