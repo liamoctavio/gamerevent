@@ -10,7 +10,6 @@ class GamereventApplicationTests {
 
 	@Test
 	void contextLoads() {
-		// Este test asegura que el contexto de Spring se carga correctamente.
 	}
 }
 

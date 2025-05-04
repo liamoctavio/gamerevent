@@ -48,7 +48,6 @@ public class PerfilController {
         usuario.setAvatar(avatar);
         usuario.setNotificaciones(notificaciones);
 
-        // Actualizar juegos
         Set<Juego> juegos = new HashSet<>();
         if (juegosSeleccionados != null) {
             juegosSeleccionados.forEach(id -> juegoRepository.findById(id).ifPresent(juegos::add));

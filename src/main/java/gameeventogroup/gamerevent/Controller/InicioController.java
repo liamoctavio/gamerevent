@@ -24,7 +24,7 @@ public class InicioController {
 
     @GetMapping("/")
     public String redirigirInicio() {
-        return "redirect:/inicio"; // Redirigir a /inicio
+        return "redirect:/inicio"; 
     }
 
     @GetMapping("/inicio")
@@ -38,30 +38,24 @@ public class InicioController {
         List<Evento> eventos;
 
         if (titulo != null && !titulo.isEmpty()) {
-            // Buscar por título
             eventos = eventoRepository.findByTituloContainingIgnoreCase(titulo);
         } else if (categoria != null && !categoria.isEmpty()) {
-            // Buscar por categoría
             eventos = eventoRepository.findByCategoriaContainingIgnoreCase(categoria);
         } else if (ciudad != null && !ciudad.isEmpty()) {
-            // Buscar por ciudad
             eventos = eventoRepository.findByCiudadContainingIgnoreCase(ciudad);
         } else if (fecha != null) {
-            // Buscar por fecha
             eventos = eventoRepository.findByFecha(fecha);
         } else {
-            // Si no hay filtros, mostrar todos los eventos
             eventos = eventoRepository.findAll();
         }
 
-        // Agregar los resultados y los filtros al modelo
         model.addAttribute("eventos", eventos);
         model.addAttribute("titulo", titulo);
         model.addAttribute("categoria", categoria);
         model.addAttribute("ciudad", ciudad);
         model.addAttribute("fecha", fecha);
 
-        return "inicio"; // Nombre del archivo HTML (sin extensión)
+        return "inicio"; 
     }
     
 }

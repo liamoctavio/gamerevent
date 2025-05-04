@@ -19,11 +19,9 @@ public class LoginAttemptFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        // Solo se aplica al endpoint /login
         if (request.getRequestURI().equals("/login") && request.getMethod().equalsIgnoreCase("POST")) {
             String ip = request.getRemoteAddr();
 
-            // Si supera el límite de intentos
             if (intentosFallidos.getOrDefault(ip, 0) >= 5) {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Demasiados intentos fallidos, intente más tarde");
                 return;

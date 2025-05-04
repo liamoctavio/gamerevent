@@ -38,10 +38,10 @@ public class Usuario implements UserDetails, Serializable {
     )
     private Set<Juego> juegosDeInteres = new HashSet<>();
 
-    // Implementación mínima de UserDetails
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new HashSet<>(); // No tienes roles definidos aún
+        return new HashSet<>(); 
     }
 
     @Override
